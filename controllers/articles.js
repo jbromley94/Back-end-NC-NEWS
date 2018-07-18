@@ -34,6 +34,8 @@ const commentsByArticle = (req, res, next) => {
   Article.find({
       _id : req.params.id
     })
+    //Now i've found the article i just need to pass that id to comments
+
     .then(article => {
       console.log(article)
       return Comment.find({
