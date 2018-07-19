@@ -3,37 +3,43 @@ const {
   Comment
 } = require('../models/index');
 
-const individiualComment = (req, res, next) => {
-  if (Object.keys(req.query).length === 0) {
-    Comment.findById(req.params.id)
-      .then(result => {
-        result === null ?
-          next({
-            status: 404,
-            msg: 'hihihi'
-          }) :
-          res.status(200).send({
-            result
-          });
-      })
-      .catch(next);
-  } else {
-    console.log(req)
-    Comment.findById(req.params.id)
-      .then(result => {
-        console.log(result)
-        if (req.query.vote === 'down') {
-          result.votes--
-        }
-        if (req.query.vote === 'up') {
-          result.votes++
-        }
-        res.status(202).send({
-          result
-        });
-      })
-      .catch(next);
+const individualComment = (req, res, next) => {
+  console.log('in herherhwehfwvervbrljfhk;vn')
+  if (req.query.vote === 'up') {
+    Comment.findByIdAndUpdate(req.params.id, {
+      votes: `${+1}`
+    }, {
+      upsert: true,
+      new: true
+    }, function (err, doc) {
+      if (err) next(err)
+      res.status(202).send(doc)
+    })
+  }
+  if (req.query.vote === 'down') {
+    Comment.findByIdAndUpdate(req.params.id, {
+      votes: `${-1}`
+    }, {
+      upsert: true,
+      new: true
+    }, function (err, doc) {
+      if (err) next(err)
+      res.status(202).send(doc)
+    })
   }
 };
 
-module.exports = individiualComment
+const youWillBeDeleted = (req, res, next) => {
+  console.log(req.params.id)
+  Comment.findByIdAndRemove(`${req.params.id}`)
+  .then(result => {
+    console.log(result)
+  })
+  .catch(next)
+}
+
+
+module.exports = {
+  individualComment,
+  youWillBeDeleted
+}

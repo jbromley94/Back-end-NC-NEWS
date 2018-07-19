@@ -19,9 +19,7 @@ const allUsers = (req, res, next) => {
 };
 
 const userById = (req, res, next) => {
-  User.find({
-    username : req.params.user
-  })
+  User.findById(req.params.user)
     .then(result => {
       res.status(200).send({
         result

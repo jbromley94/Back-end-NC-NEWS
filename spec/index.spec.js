@@ -155,38 +155,66 @@ describe('', () => {
         return request.get(`/api/articles/${articleDocs[0]._id}/comments`)
           .expect(200)
           .then(res => {
+            console.log(res.body.result)
             expect(res.body).to.be.an("Object")
-            expect(res.body.result).to.contain.keys("title", "body", "created_by", "created_at", "belongs_to", "votes")
-            expect(res.body.result.body).to.equal("I find this existence challenging")
+            expect(res.body.result).to.be.an("Array")
+            expect(res.body.result[0]).to.contain.keys("body", "created_by", "created_at", "belongs_to", "votes")
+            expect(res.body.result[0].body).to.equal("Replacing the quiet elegance of the dark suit and tie with the casual indifference of these muted earth tones is a form of fashion suicide, but, uh, call me crazy — on you it works.")
           })
       })
-      it("XXXX-PUT responds 201 when incrementing vote up or down", () => {
-        return request.get(`/api/articles/${articleDocs[0]._id}?vote=down`)
+      it("13-PUT responds 201 when incrementing vote down", () => {
+        return request.put(`/api/articles/${articleDocs[0]._id}?vote=down`)
           .expect(202)
           .then(res => {
-            expect(res.body.result.votes).to.equal(-1)
-            expect(res.body.result).to.be.an("Object")
-            expect(res.body.result).to.contain.keys("title", "body", "created_by", "created_at", "belongs_to", "votes")
+            expect(res.body).to.be.an("Object")
+            expect(res.body).to.contain.keys("created_at", "votes")
+            expect(res.body.votes).to.equal(-1)
           })
       })
-      it("XXXX-PUT responds 201 when incrementing vote up or down", () => {
+      it("14-PUT responds 201 when incrementing vote up", () => {
         return request.put(`/api/articles/${articleDocs[0]._id}?vote=up`)
           .expect(202)
           .then(res => {
-            expect(res.body.result).to.be.an("Object")
-            expect(res.body.result).to.contain.keys("title", "body", "created_by", "created_at", "belongs_to", "votes")
-            expect(res.body.result.votes).to.equal(1)
+            expect(res.body).to.be.an("Object")
+            expect(res.body).to.contain.keys("created_at", "votes")
+            expect(res.body.votes).to.equal(1)
           })
       })
     })
     describe("comments", () => {
-      it.only("XXXX-PUT responds 201 when incrementing vote up or down", () => {
-        return request.get(`/api/comments/${commentDocs[0]._id}?vote=up`)
+      it("15-PUT responds 201 when incrementing vote up or down", () => {
+        return request.put(`/api/comments/${commentDocs[0]._id}?vote=up`)
           .expect(202)
           .then(res => {
-            expect(res.body.result).to.be.an("Object")
-            expect(res.body.result).to.contain.keys("title", "body", "created_by", "created_at", "belongs_to", "votes")
-            expect(res.body.result.votes).to.equal(1)
+            console.log(res.body, `<<<<<<<<<<`)
+            expect(res.body).to.be.an("Object")
+            expect(res.body).to.contain.keys("body", "created_by", "created_at", "belongs_to", "votes")
+            expect(res.body.votes).to.equal(1)
+            expect(res.body.body).to.equal("Replacing the quiet elegance of the dark suit and tie with the casual indifference of these muted earth tones is a form of fashion suicide, but, uh, call me crazy — on you it works.")
+          })
+      })
+      it.only("16-DELETE responds 200 when deleting a comment", () => {
+        console.log(commentDocs[0])
+        return request.delete(`/api/comments/${commentDocs[0]._id}`)
+          .expect(200)
+          .then(res => {
+            console.log(res.body, `<<<<<<<<<<`)
+            expect(res.body).to.be.an("Object")
+            expect(res.body).to.contain.keys("body", "created_by", "created_at", "belongs_to", "votes")
+            expect(res.body.votes).to.equal(1)
+            expect(res.body.body).to.equal("Replacing the quiet elegance of the dark suit and tie with the casual indifference of these muted earth tones is a form of fashion suicide, but, uh, call me crazy — on you it works.")
+          })
+      })
+    })
+    describe("users", () => {
+      it("17 - GET responds with a user and their known info", () => {
+        return request.get(`/api/users/${userDocs[0]._id}`)
+          .expect(200)
+          .then(res => {
+            console.log(res.body)
+            expect(res.body).to.be.an("Object")
+            expect(res.body.result).to.contain.keys("username", "avatar_url", "name")
+            expect(res.body.result._id).to.equal(`${userDocs[0]._id}`)
           })
       })
     })

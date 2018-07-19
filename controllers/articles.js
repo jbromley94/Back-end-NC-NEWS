@@ -29,35 +29,33 @@ const individiualArticle = (req, res, next) => {
       })
       .catch(next);
   } else {
-    Article.findById(req.params.id)
-      .then(result => {
-        console.log(result)
-        if (req.query.vote === 'down') {
-          result.votes--
-        }
-        if (req.query.vote === 'up') {
-          result.votes++
-        }
-          res.status(202).send({
-            result
-          });
-      })
-      .catch(next);
+    if (req.query.vote === 'up') {
+    Article.findByIdAndUpdate(req.params.id, {
+      votes: `${+1}`
+    }, {upsert : true, 
+      new: true
+    }, function (err, doc) {
+      if (err) next(err)
+      res.status(202).send(doc)
+    })
   }
+  if (req.query.vote === 'down') {
+    Article.findByIdAndUpdate(req.params.id, {
+      votes: `${-1}`
+    }, {
+      upsert: true,
+      new: true
+    }, function (err, doc) {
+      if (err) next(err)
+      res.status(202).send(doc)
+    })
+  }
+}
 };
 
 const commentsByArticle = (req, res, next) => {
-  Article.findById(req.params.id)
-    //Now i've found the article i just need to pass that id to comments
-
-    .then(article => {
-      console.log(article.title, "<<<<<<<<<<<<<<<<<<<,")
-      Comment.find({
-        belongs_to: `${article.title}`
-      })
-    })
+  Comment.find({belongs_to : `${req.params.id}`})
     .then(result => {
-      console.log(">>>>>>>>>>>>>>>>", result)
       res.status(200).send({
         result
       });

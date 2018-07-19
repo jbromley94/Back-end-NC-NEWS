@@ -6,8 +6,11 @@ const {
 } = require('../controllers/articles');
 
 articlesRouter.route('/').get(allArticles);
-articlesRouter.route('/:id').get(individiualArticle);
-articlesRouter.route('/:id/comments').get(commentsByArticle);
+articlesRouter.route('/:id')
+.get(individiualArticle)
+.put(individiualArticle);
+articlesRouter.route('/:id/comments')
+.get(commentsByArticle);
 
 articlesRouter.get('/*', (req, res, next) => {
   let err = 404
