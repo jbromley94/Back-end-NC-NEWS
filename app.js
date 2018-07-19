@@ -5,7 +5,9 @@ const apiRouter = require('./routes/apiRouter');
 const mongoose = require('mongoose');
 const DB_URL = 'mongodb://localhost:27017/northcoderNews';
 
-mongoose.connect(DB_URL);
+mongoose.connect(DB_URL, {
+  useNewUrlParser: true
+});
 
 app.use(bodyParser.json(), express.static(__dirname + '/public'));
 
@@ -13,16 +15,50 @@ app.set('view engine', 'ejs');
 app.get('/', (req, res) => res.render('home.ejs'));
 app.use('/api', apiRouter);
 
+/* 
+----------------------------------------------
+ERROR HANDLING TIME!
+
+----------------------------------
+
+*/
 app.use(function (err, req, res, next) {
-  console.log(err, '<<<<<<<<<');
-  if (err === 404) {
+  // console.log(err,  '<<<<<<<<<');
+  if (err === 404 || err.status === 404) {
     res.status(404).send({
-      msg: 'These are not the droids you\'re looking for'
+      msg: 'These are not the droids you\'re looking for',
+      BAD_REQUEST : `Given Path or Field is invalid`
     });
   }
-  if (err === 400) {
+  else next(err)
+});
+
+app.use(function (err, req, res, next) {
+  if (err.name === "TypeError") {
+    res.status(404).send({
+      msg: err.message,
+      BAD_REQUEST: `Given topic is invalid`
+    });
+  }
+  else next(err)
+});
+
+app.use(function (err, req, res, next) {
+  if (err.name === "CastError") {
+      res.status(400).send({
+      msg: `The correct parameters for this request not met. See below for details`,
+      BAD_REQUEST: `Your input of ${err.value} is not appropriate to complete the search : The parameters REQUIRE a relevant 24digit hash`
+    });
+  } 
+  else next(err)
+});
+
+app.use(function (err, req, res, next) {
+  if (err.name === "ValidationError") {
+    errArrString = Object.keys(err.errors).join(', ')
     res.status(400).send({
-      msg: 'These are NOT appropriate parameters mate'
+      msg: `The correct parameters for post request not met. See below for details`,
+      BAD_REQUEST : `The following are REQUIRED for a succsessful post: ${errArrString}`
     });
   }
   res.status(500).send({

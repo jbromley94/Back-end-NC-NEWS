@@ -9,17 +9,17 @@ const dev = {
     password: 'Pa$$w0rd'
   }
 }
-// const test = {
-//   DB: {
-//     host: 'localhost',
-//     port: 5432,
-//     database: 'game_of_sql_test',
-//     username: 'jordan',
-//     password: 'Pa$$w0rd'
-//   }
-// }
+const test = {
+  DB: {
+    host: 'localhost',
+    port: 27017,
+    database: 'northcoderNews',
+    username: 'jordan',
+    password: 'Pa$$w0rd'
+  }
+}
 const config = {
-  dev
+  dev, test
 }
 
 module.exports = config[NODE_ENV]

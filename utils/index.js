@@ -27,7 +27,7 @@ const createRef = (data, docs) => {
       acc[currentDatum.username] = docs[index]._id;
     }
     if (currentDatum.slug) {
-      acc[currentDatum.slug] = docs[index]._id;
+      acc[currentDatum.slug] = docs[index].slug;
     }
     if(currentDatum.title){
       acc[currentDatum.title] = docs[index]._id;

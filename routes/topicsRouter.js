@@ -1,11 +1,13 @@
 const topicsRouter = require('express').Router();
 const {
   allTopics,
-  articleForTopic
+  articleForTopic,
+  articleToTopic
 } = require('../controllers/topics');
 
 topicsRouter.route('/').get(allTopics);
-topicsRouter.route(`/:topic/articles`).get(articleForTopic)
+topicsRouter.route(`/:topic_slug/articles`).get(articleForTopic)
+topicsRouter.route(`/:topic_id/articles`).post(articleToTopic)
 
 
 topicsRouter.get('/*', (req, res, next) => {
