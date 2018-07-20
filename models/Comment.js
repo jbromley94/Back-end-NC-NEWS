@@ -12,7 +12,7 @@ const CommentSchema = new Schema({
   },
   created_at: {
     type: Date,
-    default: Date.now
+    default: () => Date.now()
   },
   belongs_to: {
     type: mongoose.Schema.Types.ObjectId,

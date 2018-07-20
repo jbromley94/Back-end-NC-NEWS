@@ -13,7 +13,6 @@ const allUsers = (req, res, next) => {
       });
     })
     .catch(err => {
-      console.log(err);
       next(err);
     });
 };
@@ -21,12 +20,16 @@ const allUsers = (req, res, next) => {
 const userById = (req, res, next) => {
   User.findById(req.params.user)
     .then(result => {
+     result === null ?
+       next({
+         status: 404,
+         msg: 'hihihi'
+       }) :
       res.status(200).send({
         result
       });
     })
     .catch(err => {
-      console.log(err);
       next(err);
     });
 };

@@ -1,15 +1,13 @@
-process.env.NODE_ENV = "dev";
-
-const {DB_URL} = require(`../db/index`)
+const {DB_URL} = require(`../db/config`)
 console.log(DB_URL)
 const
-  topicData = require('./testData/topics.json')
+  topicData = require('./devData/topics.json')
 const
-  articleData = require('./testData/articles.json')
+  articleData = require('./devData/articles.json')
 const
-  userData = require('./testData/users.json');
+  userData = require('./devData/users.json');
 const
-  commentData = require('./testData/comments.json')
+  commentData = require('./devData/comments.json')
 const seedDB = require('./seed');
 const mongoose = require('mongoose');
 

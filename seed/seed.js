@@ -1,3 +1,5 @@
+
+
 const mongoose = require('mongoose');
 mongoose.Promise = Promise;
 const {
@@ -15,6 +17,14 @@ const {
   Article,
   Comment
 } = require('../models')
+const
+  topicData = require('./devData/topics.json')
+const
+  articleData = require('./devData/articles.json')
+const
+  userData = require('./devData/users.json');
+const
+  commentData = require('./devData/comments.json')
 
 
 const seedDB = (topicData, commentData, articleData, userData) => {
@@ -66,5 +76,8 @@ const seedDB = (topicData, commentData, articleData, userData) => {
       return [topicDocs, commentDocs, articleDocs, userDocs]
     })
 }
+
+
+
 
 module.exports = seedDB;

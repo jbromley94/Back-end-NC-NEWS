@@ -4,7 +4,6 @@ const {
 } = require('../models/index');
 
 const individualComment = (req, res, next) => {
-  console.log('in herherhwehfwvervbrljfhk;vn')
   if (req.query.vote === 'up') {
     Comment.findByIdAndUpdate(req.params.id, {
       votes: `${+1}`
@@ -12,7 +11,10 @@ const individualComment = (req, res, next) => {
       upsert: true,
       new: true
     }, function (err, doc) {
-      if (err) next(err)
+      if (err) return next(err)
+      if (!doc.belongs_to) return next({
+        status: 404
+      })
       res.status(202).send(doc)
     })
   }
@@ -23,17 +25,19 @@ const individualComment = (req, res, next) => {
       upsert: true,
       new: true
     }, function (err, doc) {
-      if (err) next(err)
+      if (err) return next(err)
+      if (!doc.belongs_to) return next({
+        status: 404
+      })
       res.status(202).send(doc)
     })
   }
 };
 
 const youWillBeDeleted = (req, res, next) => {
-  console.log(req.params.id)
-  Comment.findByIdAndRemove(`${req.params.id}`)
-  .then(result => {
-    console.log(result)
+  Comment.findByIdAndDelete(`${req.params.id}`)
+  .then(deleted => {
+    res.status(200).send({deleted: deleted, msg: `The above comment has successfully been removed`})
   })
   .catch(next)
 }

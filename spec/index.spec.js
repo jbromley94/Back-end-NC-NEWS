@@ -33,7 +33,7 @@ describe('', () => {
   })
   describe('northcoderNews', () => {
     describe("topics", () => {
-      it("1-GET responds 200 and all topics", () => {
+      it("T1-GET responds 200 and all topics", () => {
         return request.get("/api/topics")
           .expect(200)
           .then(res => {
@@ -42,7 +42,7 @@ describe('', () => {
             expect(res.body.result.length).to.equal(2)
           })
       })
-      it("2-GET responds 404 when topics is misspelt", () => {
+      it("T2-GET responds 404 when topics is misspelt", () => {
         return request.get("/api/topic")
           .expect(404)
           .then(res => {
@@ -52,16 +52,18 @@ describe('', () => {
             expect(res.body.BAD_REQUEST).to.equal(`Given Path or Field is invalid`)
           })
       })
-      it("3-GET responds 200 and specific articles of given topic", () => {
+      it("T3-GET responds 200 and specific articles of given topic", () => {
         return request.get("/api/topics/mitch/articles")
           .expect(200)
           .then(res => {
             expect(res.body.result).to.be.an("Array")
-            expect(res.body.result[0]).to.contain.keys("title", "body", "created_by", "created_at", "belongs_to", "votes")
+            expect(res.body.result[0]).to.contain.keys("title", "body", "created_by", "created_at", "belongs_to", "votes", "comment_count")
             expect(res.body.result.length).to.equal(2)
+            expect(res.body.result[0].comment_count).to.equal(2)
+            expect(res.body.result[1].comment_count).to.equal(2)
           })
       })
-      it("4-GET responds 404 for a topic that does not exist", () => {
+      it("T4-GET responds 404 for a topic that does not exist", () => {
         return request.get("/api/topics/mich/articles")
           .expect(404)
           .then(res => {
@@ -71,7 +73,7 @@ describe('', () => {
             expect(res.body.BAD_REQUEST).to.equal(`Given topic is invalid`)
           })
       })
-      it('5- POST responds with 400 for an incorrectly structured post', () => {
+      it('T5- POST responds with 400 for an incorrectly structured post', () => {
         const topicId = topicDocs[0]._id
         return request.post(`/api/topics/${topicId}/articles`)
           .send({
@@ -85,7 +87,7 @@ describe('', () => {
             expect(res.body.BAD_REQUEST).to.equal(`The following are REQUIRED for a succsessful post: created_by, belongs_to, body, title`)
           })
       })
-      it('6- POST responds with 201 for a correctly structured post', () => {
+      it('T6- POST responds with 201 for a correctly structured post', () => {
         const topicId = topicDocs[0]._id
         return request.post(`/api/topics/${topicId}/articles`)
           .send({
@@ -103,16 +105,20 @@ describe('', () => {
       })
     })
     describe("articles", () => {
-      it("7-GET responds 200 and all articles", () => {
+      it("A1-GET responds 200 and all articles", () => {
         return request.get("/api/articles")
           .expect(200)
           .then(res => {
             expect(res.body.result).to.be.an("Array")
-            expect(res.body.result[0]).to.contain.keys("title", "body", "created_by", "created_at", "belongs_to", "votes")
+            expect(res.body.result[0]).to.contain.keys("title", "body", "created_by", "created_at", "belongs_to", "votes", "comment_count")
             expect(res.body.result.length).to.equal(4)
+            expect(res.body.result[0].comment_count).to.equal(2)
+            expect(res.body.result[1].comment_count).to.equal(2)
+            expect(res.body.result[2].comment_count).to.equal(2)
+            expect(res.body.result[3].comment_count).to.equal(2)
           })
       })
-      it("8-GET responds 404 when articles is misspelt", () => {
+      it("A2-GET responds 404 when articles is misspelt", () => {
         return request.get("/api/article")
           .expect(404)
           .then(res => {
@@ -122,7 +128,7 @@ describe('', () => {
             expect(res.body.BAD_REQUEST).to.equal(`Given Path or Field is invalid`)
           })
       })
-      it("9-GET responds 200 when searching for articles by id", () => {
+      it("A3-GET responds 200 when searching for articles by id", () => {
         return request.get(`/api/articles/${articleDocs[0]._id}`)
           .expect(200)
           .then(res => {
@@ -131,7 +137,7 @@ describe('', () => {
             expect(res.body.result.body).to.equal("I find this existence challenging")
           })
       })
-      it("10-GET responds 404 when incorrect id hash from another collection", () => {
+      it("A4-GET responds 404 when incorrect id hash from another collection", () => {
         return request.get(`/api/articles/${topicDocs[0]._id}`)
           .expect(404)
           .then(res => {
@@ -141,7 +147,7 @@ describe('', () => {
             expect(res.body.BAD_REQUEST).to.equal(`Given Path or Field is invalid`)
           })
       })
-      it("11-GET responds 400 when incorrect input used", () => {
+      it("A5-GET responds 400 when incorrect input used", () => {
         return request.get(`/api/articles/mitch`)
           .expect(400)
           .then(res => {
@@ -151,70 +157,174 @@ describe('', () => {
             expect(res.body.BAD_REQUEST).to.equal(`Your input of mitch is not appropriate to complete the search : The parameters REQUIRE a relevant 24digit hash`)
           })
       })
-      it("12-GET responds 200 when searching for comments by articles by id", () => {
+      it("A6-GET responds 200 when searching for comments by articles by id", () => {
         return request.get(`/api/articles/${articleDocs[0]._id}/comments`)
           .expect(200)
           .then(res => {
-            console.log(res.body.result)
             expect(res.body).to.be.an("Object")
             expect(res.body.result).to.be.an("Array")
             expect(res.body.result[0]).to.contain.keys("body", "created_by", "created_at", "belongs_to", "votes")
             expect(res.body.result[0].body).to.equal("Replacing the quiet elegance of the dark suit and tie with the casual indifference of these muted earth tones is a form of fashion suicide, but, uh, call me crazy — on you it works.")
           })
       })
-      it("13-PUT responds 201 when incrementing vote down", () => {
+      it("A6.5-GET responds 400 when incorrect input used", () => {
+        return request.get(`/api/articles/mitch/comments`)
+          .expect(400)
+          .then(res => {
+            expect(res.body).to.be.an("Object")
+            expect(res.body).to.contain.keys("msg", "BAD_REQUEST")
+            expect(res.body.msg).to.equal(`The correct parameters for this request not met. See below for details`)
+            expect(res.body.BAD_REQUEST).to.equal(`Your input of mitch is not appropriate to complete the search : The parameters REQUIRE a relevant 24digit hash`)
+          })
+      })
+      it("A6.75-GET responds 404 when incorrect id hash from another collection", () => {
+        return request.get(`/api/articles/${topicDocs[0]._id}/comments`)
+          .expect(404)
+          .then(res => {
+            expect(res.body).to.be.an("Object")
+            expect(res.body).to.contain.keys("msg", "BAD_REQUEST")
+            expect(res.body.msg).to.equal('These are not the droids you\'re looking for')
+            expect(res.body.BAD_REQUEST).to.equal(`Given Path or Field is invalid`)
+          })
+      })
+      it("A7-PUT responds 201 when incrementing vote down", () => {
         return request.put(`/api/articles/${articleDocs[0]._id}?vote=down`)
           .expect(202)
           .then(res => {
             expect(res.body).to.be.an("Object")
-            expect(res.body).to.contain.keys("created_at", "votes")
+            expect(res.body).to.contain.keys("created_at", "votes", "belongs_to", "created_by")
             expect(res.body.votes).to.equal(-1)
           })
       })
-      it("14-PUT responds 201 when incrementing vote up", () => {
+      it("A8-PUT responds 201 when incrementing vote up", () => {
         return request.put(`/api/articles/${articleDocs[0]._id}?vote=up`)
           .expect(202)
           .then(res => {
             expect(res.body).to.be.an("Object")
-            expect(res.body).to.contain.keys("created_at", "votes")
+            expect(res.body).to.contain.keys("created_at", "votes", "belongs_to", "created_by")
             expect(res.body.votes).to.equal(1)
+          })
+      })
+      it("A7n8 Err-PUT responds 400 when incorrect input used", () => {
+        return request.put(`/api/articles/mitch?vote=up`)
+          .expect(400)
+          .then(res => {
+            expect(res.body).to.be.an("Object")
+            expect(res.body).to.contain.keys("msg", "BAD_REQUEST")
+            expect(res.body.msg).to.equal(`The correct parameters for this request not met. See below for details`)
+            expect(res.body.BAD_REQUEST).to.equal(`Your input of mitch is not appropriate to complete the search : The parameters REQUIRE a relevant 24digit hash`)
+          })
+      })
+      it("A7n8.5 Err-PUT responds 404 when incorrect id hash from another collection", () => {
+        return request.put(`/api/articles/${topicDocs[0]._id}?vote=up`)
+          .expect(404)
+          .then(res => {
+            expect(res.body).to.be.an("Object")
+            expect(res.body).to.contain.keys("msg", "BAD_REQUEST")
+            expect(res.body.msg).to.equal('These are not the droids you\'re looking for')
+            expect(res.body.BAD_REQUEST).to.equal(`Given Path or Field is invalid`)
+          })
+      })
+      it('A9- POST responds with 201 for a correctly structured post', () => {
+        const articleId = articleDocs[0]._id
+        return request.post(`/api/articles/${articleId}/comments`)
+          .send({
+            votes: 0,
+            created_by: '5b507350c6aab01c1f82121b',
+            body: 'Oh wow, I love to make inane useless comments',
+            belongs_to: 'mitch'
+          })
+          .expect(201)
+          .then(res => {
+            expect(res.body.result).to.be.an("Object")
+            expect(res.body.result).to.contain.keys("body", "created_by", "created_at", "belongs_to", "votes")
+          })
+      })
+      it('A10- POST responds with 400 for an incorrectly structured post', () => {
+        const articleId = articleDocs[0]._id
+        return request.post(`/api/articles/${articleId}/comments`)
+          .send({
+            anything: 'blah blah blah'
+          })
+          .expect(400)
+          .then(res => {
+            expect(res.body).to.be.an("Object")
+            expect(res.body).to.contain.keys("msg", "BAD_REQUEST")
+            expect(res.body.msg).to.equal(`The correct parameters for post request not met. See below for details`)
+            expect(res.body.BAD_REQUEST).to.equal(`The following are REQUIRED for a succsessful post: created_by, body`)
           })
       })
     })
     describe("comments", () => {
-      it("15-PUT responds 201 when incrementing vote up or down", () => {
+      it("C1-PUT responds 201 when incrementing vote up or down", () => {
         return request.put(`/api/comments/${commentDocs[0]._id}?vote=up`)
           .expect(202)
           .then(res => {
-            console.log(res.body, `<<<<<<<<<<`)
             expect(res.body).to.be.an("Object")
             expect(res.body).to.contain.keys("body", "created_by", "created_at", "belongs_to", "votes")
             expect(res.body.votes).to.equal(1)
             expect(res.body.body).to.equal("Replacing the quiet elegance of the dark suit and tie with the casual indifference of these muted earth tones is a form of fashion suicide, but, uh, call me crazy — on you it works.")
           })
       })
-      it.only("16-DELETE responds 200 when deleting a comment", () => {
-        console.log(commentDocs[0])
+      it("C1.5 Err-PUT responds 400 when incorrect input used", () => {
+        return request.put(`/api/comments/mitch?vote=up`)
+          .expect(400)
+          .then(res => {
+            expect(res.body).to.be.an("Object")
+            expect(res.body).to.contain.keys("msg", "BAD_REQUEST")
+            expect(res.body.msg).to.equal(`The correct parameters for this request not met. See below for details`)
+            expect(res.body.BAD_REQUEST).to.equal(`Your input of mitch is not appropriate to complete the search : The parameters REQUIRE a relevant 24digit hash`)
+          })
+      })
+      it("C1.75 Err-PUT responds 404 when incorrect id hash from another collection", () => {
+        return request.put(`/api/comments/${topicDocs[0]._id}?vote=up`)
+          .expect(404)
+          .then(res => {
+            expect(res.body).to.be.an("Object")
+            expect(res.body).to.contain.keys("msg", "BAD_REQUEST")
+            expect(res.body.msg).to.equal('These are not the droids you\'re looking for')
+            expect(res.body.BAD_REQUEST).to.equal(`Given Path or Field is invalid`)
+          })
+      })
+      it("C2-DELETE responds 200 when deleting a comment", () => {
         return request.delete(`/api/comments/${commentDocs[0]._id}`)
           .expect(200)
           .then(res => {
-            console.log(res.body, `<<<<<<<<<<`)
             expect(res.body).to.be.an("Object")
-            expect(res.body).to.contain.keys("body", "created_by", "created_at", "belongs_to", "votes")
-            expect(res.body.votes).to.equal(1)
-            expect(res.body.body).to.equal("Replacing the quiet elegance of the dark suit and tie with the casual indifference of these muted earth tones is a form of fashion suicide, but, uh, call me crazy — on you it works.")
+            expect(res.body).to.have.contains.keys("deleted", "msg")
+            expect(res.body.deleted).to.contain.keys("body", "created_by", "created_at", "belongs_to", "votes")
+            expect(res.body.deleted.body).to.equal("Replacing the quiet elegance of the dark suit and tie with the casual indifference of these muted earth tones is a form of fashion suicide, but, uh, call me crazy — on you it works.")
           })
       })
     })
     describe("users", () => {
-      it("17 - GET responds with a user and their known info", () => {
+      it("U1 - GET responds with a user and their known info", () => {
         return request.get(`/api/users/${userDocs[0]._id}`)
           .expect(200)
           .then(res => {
-            console.log(res.body)
             expect(res.body).to.be.an("Object")
             expect(res.body.result).to.contain.keys("username", "avatar_url", "name")
             expect(res.body.result._id).to.equal(`${userDocs[0]._id}`)
+          })
+      })
+      it("U2 - GET responds with 400 when icorrect input used", () => {
+        return request.get(`/api/users/butter`)
+          .expect(400)
+          .then(res => {
+            expect(res.body).to.be.an("Object")
+            expect(res.body).to.contain.keys("msg", "BAD_REQUEST")
+            expect(res.body.msg).to.equal(`The correct parameters for this request not met. See below for details`)
+            expect(res.body.BAD_REQUEST).to.equal(`Your input of butter is not appropriate to complete the search : The parameters REQUIRE a relevant 24digit hash`)
+          })
+      })
+      it("U3 - GET responds 404 when incorrect id hash from another collection", () => {
+        return request.get(`/api/users/${topicDocs[0]._id}`)
+          .expect(404)
+          .then(res => {
+            expect(res.body).to.be.an("Object")
+            expect(res.body).to.contain.keys("msg", "BAD_REQUEST")
+            expect(res.body.msg).to.equal('These are not the droids you\'re looking for')
+            expect(res.body.BAD_REQUEST).to.equal(`Given Path or Field is invalid`)
           })
       })
     })

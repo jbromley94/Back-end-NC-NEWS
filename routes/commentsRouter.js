@@ -1,7 +1,7 @@
 const commentsRouter = require('express').Router();
 const {
   individualComment,
-  youWillBeDeleted
+  youWillBeDeleted,
 } = require('../controllers/comments');
 
 commentsRouter.route('/:id').put(individualComment)
