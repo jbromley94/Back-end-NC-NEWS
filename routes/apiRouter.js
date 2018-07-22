@@ -3,14 +3,16 @@ const topicsRouter = require('./topicsRouter');
 const articlesRouter = require('./articlesRouter');
 const usersRouter = require('./usersRouter');
 const commentsRouter = require('./commentsRouter');
+
 apiRouter.use('/comments', commentsRouter);
 apiRouter.use('/users', usersRouter);
 apiRouter.use('/articles', articlesRouter);
 apiRouter.use('/topics', topicsRouter);
-apiRouter.route('/', (req, res) => res.render('../home.html'));
 
-apiRouter.get('/*', (req, res, next) => {
+
+apiRouter.get('*', (req, res, next) => {
   let err = 404;
+  console.log(`window`)
   return next(err, req, res, next);
 });
 

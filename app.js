@@ -12,7 +12,11 @@ mongoose.connect(DB_URL, {
 app.use(bodyParser.json(), express.static(__dirname + '/public'));
 
 app.set('view engine', 'ejs');
-app.get('/', (req, res) => res.render('home.ejs'));
+app.get('/', (req, res) => res.render('home'));
+app.get('/README.md', (req, res) => {
+  console.log(`sex machine`)
+  res.render("readme")
+})
 app.use('/api', apiRouter);
 
 /* 
