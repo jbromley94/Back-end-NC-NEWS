@@ -7,6 +7,7 @@ apiRouter.use('/comments', commentsRouter);
 apiRouter.use('/users', usersRouter);
 apiRouter.use('/articles', articlesRouter);
 apiRouter.use('/topics', topicsRouter);
+apiRouter.route('/', (req, res) => res.render('../home.html'));
 
 apiRouter.get('/*', (req, res, next) => {
   let err = 404;
