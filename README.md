@@ -11,7 +11,7 @@ This API traverses the API through inputted routes. The API is fairly responsive
 To acquire the files you shall have to use this snippet in the command line, make sure that you hade cd into the directory you wish to clone into :
 
 ```
-git clone https://git.heroku.com/jb-northcoder-news.git
+git clone https://github.com/jbromley94/BE-FT-northcoders-news.git
 ```
 
 Below lays out the npm installs one shall have to use to get the app up and running.

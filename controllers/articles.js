@@ -8,8 +8,6 @@ const allArticles = (req, res, next) => {
   Article.find()
     .then(result => {
       return Promise.all([result, Comment.find()])
-
-      // res.status(200).send({result})
     })
     .then(([resultio, comments]) => {
       let result = resultio.reduce((acc, current, index) => {

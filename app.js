@@ -14,20 +14,11 @@ app.use(bodyParser.json(), express.static(__dirname + '/public'));
 app.set('view engine', 'ejs');
 app.get('/', (req, res) => res.render('home'));
 app.get('/README.md', (req, res) => {
-  console.log(`sex machine`)
-  res.render("readme")
+   res.render("readme")
 })
 app.use('/api', apiRouter);
 
-/* 
-----------------------------------------------
-ERROR HANDLING TIME!
-
-----------------------------------
-
-*/
 app.use(function (err, req, res, next) {
-  // console.log(err,  '<<<<<<<<<');
   if (err === 404 || err.status === 404) {
     res.status(404).send({
       msg: 'These are not the droids you\'re looking for',

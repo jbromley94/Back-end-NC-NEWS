@@ -14,10 +14,6 @@ articlesRouter.route('/:id/comments')
   .get(commentsByArticle)
   .post(addCommentByArticle);
 
-articlesRouter.get('/*', (req, res, next) => {
-  let err = 404
-  console.log(`in errrorro`)
-  return next(err, req, res, next)
-})
+
 
 module.exports = articlesRouter;

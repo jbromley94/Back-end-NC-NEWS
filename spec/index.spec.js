@@ -307,7 +307,7 @@ describe('', () => {
             expect(res.body.result._id).to.equal(`${userDocs[0]._id}`)
           })
       })
-      it("U2 - GET responds with 400 when icorrect input used", () => {
+      it("U2 - GET responds with 400 when correct input used", () => {
         return request.get(`/api/users/butter`)
           .expect(400)
           .then(res => {

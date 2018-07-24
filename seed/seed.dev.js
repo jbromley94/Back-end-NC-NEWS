@@ -1,5 +1,4 @@
 const {DB_URL} = require(`../db/config`)
-console.log(DB_URL)
 const
   topicData = require('./devData/topics.json')
 const
