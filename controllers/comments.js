@@ -42,7 +42,6 @@ const youWillBeDeleted = (req, res, next) => {
   .catch(next)
 }
 
-
 module.exports = {
   individualComment,
   youWillBeDeleted

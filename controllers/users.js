@@ -34,7 +34,6 @@ const userById = (req, res, next) => {
     });
 };
 
-
 module.exports = {
   allUsers,
   userById

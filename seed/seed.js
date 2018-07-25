@@ -1,5 +1,3 @@
-
-
 const mongoose = require('mongoose');
 mongoose.Promise = Promise;
 const {
@@ -26,7 +24,6 @@ const
 const
   commentData = require('./devData/comments.json')
 
-
 const seedDB = (topicData, commentData, articleData, userData) => {
   return mongoose.connection.dropDatabase()
     .then(() => {
@@ -50,8 +47,5 @@ const seedDB = (topicData, commentData, articleData, userData) => {
       return [topicDocs, commentDocs, articleDocs, userDocs]
     })
 }
-
-
-
 
 module.exports = seedDB;

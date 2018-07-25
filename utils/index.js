@@ -1,9 +1,3 @@
-const {
-  sample
-} = require('lodash')
-
-
-
 const formatSingleTopic = topicDatum => {
   return { ...topicDatum
   }

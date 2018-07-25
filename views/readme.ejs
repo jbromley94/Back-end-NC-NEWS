@@ -23,10 +23,12 @@
 <h2>  Prerequisites
 </h2>
 <p>To use this program you will have to run the following, this is provided you have set up your npm and git environments. For
-  packages used only as dev dependencies use this text below:</p>
-<h4>``` npm i -D mocha chai nodemon supertest ``` </h4>
-<p>The packages not used as dev install are the following :</p>
-<h4> ``` npm i ejs body-parser mongoose express ```</h4>
+  all npm packages needed just run :
+</p>
+<h4>``` npm install ``` </h4>
+<p>The versions are as follows :</p>
+<h4> ``` node : 9.9.0 <br> body-parser: 1.18.3<br> ejs: 2.6.1<br> express: 4.16.3<br> mongoose: 5.2.4 chai: 4.1.2<br> mocha: 5.2.0<br> nodemon:
+  1.18.3<br> supertest: 3.1.0```</h4>
 <p>The final task to carry out will be to navigate to the folder db, and create a config.js file. You can do this using either
   vscode to make a new file or by cd-ing into the db folder and typing : </p>
 <h4> ``` touch config.js ``` </h4>
@@ -52,11 +54,14 @@
 <br>
 <br> module.exports = config[NODE_ENV] ``` </h4>
 <p>A brief overview of this is that the dev and test run locally whilst the production level code points to the mlabs database.
-  You should now be completely up and running hopefully.  Running the tests To run the test you can run the scripts given
-  in the provided package.json file. Likewise feel free to produce your own. It should be noted however that these scripts
-  need to use :</p>
-<h4>``` npm run
-  <scriptName>
+  You should now be completely up and running hopefully.  </p>
+<h2>Running the tests</h2>
+<p>Before any tests are attempted, or any seeding at all, it is paramount to note that in your favourite terminal application
+  to type and enter :</p>
+  <h4>mongod</h4>
+<p> To run the test you can run the scripts given
+  in the provided package.json file. Likewise feel free to produce your own. The easiest way is to use :</p>
+<h4>``` npm test
     ``` </h4>
 <h2> Break down into end to end tests </h2>
 <p>

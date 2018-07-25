@@ -7,6 +7,4 @@ const {
 usersRouter.route(`/:user`).get(userById)
 usersRouter.route(`/`).get(allUsers)
 
-
-
 module.exports = usersRouter;

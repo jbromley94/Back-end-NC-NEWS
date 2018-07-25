@@ -17,7 +17,6 @@ const allTopics = (req, res, next) => {
     });
 };
 
-
 const articleForTopic = (req, res, next) => {
   Topic.find({
       slug: req.params.topic_slug

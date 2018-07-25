@@ -20,16 +20,24 @@ Below lays out the npm installs one shall have to use to get the app up and runn
 
 To use this program you will have to run the following, this is provided you have set up your npm and git environments.
 
-For packages used only as dev dependencies use this text below:
+For all npm packages needed just run : 
 
 ```
-npm i -D mocha chai nodemon supertest
+npm install
 ```
 
-The packages not used as dev install are the following :
+The versions are as follows :
 
 ```
-npm i ejs body-parser mongoose express
+    node : 9.9.0
+    body-parser: 1.18.3
+    ejs: 2.6.1
+    express: 4.16.3
+    mongoose: 5.2.4
+    chai: 4.1.2
+    mocha: 5.2.0
+    nodemon: 1.18.3
+    supertest: 3.1.0
 ```
 
 The final task to carry out will be to navigate to the folder db, and create a config.js file. You can do this using either vscode to make a new file or by cd-ing into the db folder and typing
@@ -65,12 +73,18 @@ You should now be completely up and running hopefully.
 
 ## Running the tests
 
-To run the test you can run the scripts given in the provided package.json file.
-Likewise feel free to produce your own.
-It should be noted however that these scripts need to use :
+Before any tests are attempted, or any seeding at all, it is paramount to note that in your favourite terminal application to type and enter : 
 
 ```
-npm run <scriptName>
+mongod
+```
+
+To run the test you can run the scripts given in the provided package.json file.
+Likewise feel free to produce your own.
+The easiest way is to use :
+
+```
+npm test
 ```
 
 ### Break down into end to end tests

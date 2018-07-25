@@ -7,6 +7,4 @@ const {
 commentsRouter.route('/:id').put(individualComment)
 .delete(youWillBeDeleted);
 
-
-
 module.exports = commentsRouter;

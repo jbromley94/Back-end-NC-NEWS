@@ -9,7 +9,4 @@ apiRouter.use('/users', usersRouter);
 apiRouter.use('/articles', articlesRouter);
 apiRouter.use('/topics', topicsRouter);
 
-
-
-
 module.exports = apiRouter;
