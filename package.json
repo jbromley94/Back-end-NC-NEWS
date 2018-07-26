@@ -7,8 +7,8 @@
     "test": "mocha spec/",
     "start": "node listen.js",
     "dev": "nodemon listen.js",
-    "seed:dev": "node ./seed/seed.dev.js",
-    "seed:prod" : "NODE_ENV=production node seed/seed.dev.js"
+    "seed:dev": "node ./seed/seeder.js",
+    "seed:prod": "NODE_ENV=production node seed/seeder.js"
   },
   "author": "",
   "license": "ISC",
@@ -20,6 +20,11 @@
   },
   "devDependencies": {
     "chai": "^4.1.2",
+    "eslint-config-standard": "^11.0.0",
+    "eslint-plugin-import": "^2.13.0",
+    "eslint-plugin-node": "^7.0.1",
+    "eslint-plugin-promise": "^3.8.0",
+    "eslint-plugin-standard": "^3.1.0",
     "mocha": "^5.2.0",
     "nodemon": "^1.18.3",
     "supertest": "^3.1.0"

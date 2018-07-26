@@ -37,9 +37,9 @@ describe('', () => {
         return request.get("/api/topics")
           .expect(200)
           .then(res => {
-            expect(res.body.result[0]).to.contain.keys("title", "slug")
-            expect(res.body.result).to.be.an("Array")
-            expect(res.body.result.length).to.equal(2)
+            expect(res.body.topics[0]).to.contain.keys("title", "slug")
+            expect(res.body.topics).to.be.an("Array")
+            expect(res.body.topics.length).to.equal(2)
           })
       })
       it("T2-GET responds 404 when topics is misspelt", () => {
@@ -47,9 +47,9 @@ describe('', () => {
           .expect(404)
           .then(res => {
             expect(res.body).to.be.an("Object")
-            expect(res.body).to.contain.keys("msg", "BAD_REQUEST")
+            expect(res.body).to.contain.keys("msg", "NOT_FOUND")
             expect(res.body.msg).to.equal('These are not the droids you\'re looking for')
-            expect(res.body.BAD_REQUEST).to.equal(`Given Path or Field is invalid`)
+            expect(res.body.NOT_FOUND).to.equal(`Given Path or Field is invalid`)
           })
       })
       it("T3-GET responds 200 and specific articles of given topic", () => {
@@ -68,9 +68,9 @@ describe('', () => {
           .expect(404)
           .then(res => {
             expect(res.body).to.be.an("Object")
-            expect(res.body).to.contain.keys("msg", "BAD_REQUEST")
+            expect(res.body).to.contain.keys("msg", "NOT_FOUND")
             expect(res.body.msg).to.equal(`Cannot read property 'slug' of undefined`)
-            expect(res.body.BAD_REQUEST).to.equal(`Given topic is invalid`)
+            expect(res.body.NOT_FOUND).to.equal(`Given topic is invalid`)
           })
       })
       it('T5- POST responds with 400 for an incorrectly structured post', () => {
@@ -99,8 +99,8 @@ describe('', () => {
           })
           .expect(201)
           .then(res => {
-            expect(res.body.result).to.be.an("Object")
-            expect(res.body.result).to.contain.keys("title", "body", "created_by", "created_at", "belongs_to", "votes")
+            expect(res.body.posted_article).to.be.an("Object")
+            expect(res.body.posted_article).to.contain.keys("title", "body", "created_by", "created_at", "belongs_to", "votes")
           })
       })
     })
@@ -123,9 +123,9 @@ describe('', () => {
           .expect(404)
           .then(res => {
             expect(res.body).to.be.an("Object")
-            expect(res.body).to.contain.keys("msg", "BAD_REQUEST")
+            expect(res.body).to.contain.keys("msg", "NOT_FOUND")
             expect(res.body.msg).to.equal('These are not the droids you\'re looking for')
-            expect(res.body.BAD_REQUEST).to.equal(`Given Path or Field is invalid`)
+            expect(res.body.NOT_FOUND).to.equal(`Given Path or Field is invalid`)
           })
       })
       it("A3-GET responds 200 when searching for articles by id", () => {
@@ -142,9 +142,9 @@ describe('', () => {
           .expect(404)
           .then(res => {
             expect(res.body).to.be.an("Object")
-            expect(res.body).to.contain.keys("msg", "BAD_REQUEST")
+            expect(res.body).to.contain.keys("msg", "NOT_FOUND")
             expect(res.body.msg).to.equal('These are not the droids you\'re looking for')
-            expect(res.body.BAD_REQUEST).to.equal(`Given Path or Field is invalid`)
+            expect(res.body.NOT_FOUND).to.equal(`Given Path or Field is invalid`)
           })
       })
       it("A5-GET responds 400 when incorrect input used", () => {
@@ -182,9 +182,9 @@ describe('', () => {
           .expect(404)
           .then(res => {
             expect(res.body).to.be.an("Object")
-            expect(res.body).to.contain.keys("msg", "BAD_REQUEST")
+            expect(res.body).to.contain.keys("msg", "NOT_FOUND")
             expect(res.body.msg).to.equal('These are not the droids you\'re looking for')
-            expect(res.body.BAD_REQUEST).to.equal(`Given Path or Field is invalid`)
+            expect(res.body.NOT_FOUND).to.equal(`Given Path or Field is invalid`)
           })
       })
       it("A7-PUT responds 201 when incrementing vote down", () => {
@@ -220,9 +220,9 @@ describe('', () => {
           .expect(404)
           .then(res => {
             expect(res.body).to.be.an("Object")
-            expect(res.body).to.contain.keys("msg", "BAD_REQUEST")
+            expect(res.body).to.contain.keys("msg", "NOT_FOUND")
             expect(res.body.msg).to.equal('These are not the droids you\'re looking for')
-            expect(res.body.BAD_REQUEST).to.equal(`Given Path or Field is invalid`)
+            expect(res.body.NOT_FOUND).to.equal(`Given Path or Field is invalid`)
           })
       })
       it('A9- POST responds with 201 for a correctly structured post', () => {
@@ -281,9 +281,9 @@ describe('', () => {
           .expect(404)
           .then(res => {
             expect(res.body).to.be.an("Object")
-            expect(res.body).to.contain.keys("msg", "BAD_REQUEST")
+            expect(res.body).to.contain.keys("msg", "NOT_FOUND")
             expect(res.body.msg).to.equal('These are not the droids you\'re looking for')
-            expect(res.body.BAD_REQUEST).to.equal(`Given Path or Field is invalid`)
+            expect(res.body.NOT_FOUND).to.equal(`Given Path or Field is invalid`)
           })
       })
       it("C2-DELETE responds 200 when deleting a comment", () => {
@@ -322,9 +322,9 @@ describe('', () => {
           .expect(404)
           .then(res => {
             expect(res.body).to.be.an("Object")
-            expect(res.body).to.contain.keys("msg", "BAD_REQUEST")
+            expect(res.body).to.contain.keys("msg", "NOT_FOUND")
             expect(res.body.msg).to.equal('These are not the droids you\'re looking for')
-            expect(res.body.BAD_REQUEST).to.equal(`Given Path or Field is invalid`)
+            expect(res.body.NOT_FOUND).to.equal(`Given Path or Field is invalid`)
           })
       })
     })

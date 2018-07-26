@@ -3,6 +3,9 @@ const {
   Article,
   Comment
 } = require('../models/index');
+const {
+  voteLogger
+} = require("../utils/index")
 
 const allArticles = (req, res, next) => {
   Article.find()
@@ -10,25 +13,7 @@ const allArticles = (req, res, next) => {
       return Promise.all([result, Comment.find()])
     })
     .then(([resultio, comments]) => {
-      let result = resultio.reduce((acc, current, index) => {
-        let obj = {}
-        obj.votes = current.votes
-        obj._id = current._id
-        obj.title = current.title
-        obj.created_by = current.created_by
-        obj.body = current.body
-        obj.created_at = current.created_at
-        obj.belongs_to = current.belongs_to
-        obj.__v = current.__v
-        obj.comment_count = 0
-        for (let i = 0; i < comments.length; i++) {
-          if (comments[i].belongs_to.toString() === obj._id.toString()) {
-            obj.comment_count += 1
-          }
-        }
-        acc.push(obj)
-        return acc
-      }, [])
+      let result = voteLogger(resultio, comments)
       res.status(200).send({
         result
       });

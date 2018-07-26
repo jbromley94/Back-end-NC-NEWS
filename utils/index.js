@@ -20,7 +20,7 @@ const createRef = (data, docs) => {
     if (currentDatum.slug) {
       acc[currentDatum.slug] = docs[index].slug;
     }
-    if(currentDatum.title){
+    if (currentDatum.title) {
       acc[currentDatum.title] = docs[index]._id;
     }
     return acc;
@@ -28,28 +28,31 @@ const createRef = (data, docs) => {
 }
 
 const exchangeIDs = (oldItems, ref) => {
-  if(typeof oldItems === 'string'){
+  if (typeof oldItems === 'string') {
     return ref[oldItems]
-  } else{
-  return oldItems.reduce((acc, oldItem) => {
-    let oldID = typeof oldItem === 'object' ? oldItem.id : oldItem;
-    const newID = ref[oldID];
-    newID ? acc.push(newID) : null;
-    return acc;
-  }, []);
-}
+  } else {
+    return oldItems.reduce((acc, oldItem) => {
+      let oldID = typeof oldItem === 'object' ? oldItem.id : oldItem;
+      const newID = ref[oldID];
+      newID ? acc.push(newID) : null;
+      return acc;
+    }, []);
+  }
 }
 
 const formatArticleData = (articleData, userRef, topicRef) => {
-    return articleData.map(articleDatum => {
-      articleDatum.vote = 0 
-      const{topic : belongs_to, created_by} = articleDatum
-      return {
-        ...articleDatum,
-        topic: exchangeIDs(belongs_to, topicRef),
-        created_by: exchangeIDs(created_by, userRef),
-      }
-    })
+  return articleData.map(articleDatum => {
+    articleDatum.vote = 0
+    const {
+      topic: belongs_to,
+      created_by
+    } = articleDatum
+    return {
+      ...articleDatum,
+      topic: exchangeIDs(belongs_to, topicRef),
+      created_by: exchangeIDs(created_by, userRef),
+    }
+  })
 }
 
 const renameKeyInArr = (arrObj) => {
@@ -61,7 +64,7 @@ const renameKeyInArr = (arrObj) => {
 const formatCommentsData = (commentData, userRefs, articleRef) => {
   return commentData.map(commentDatum => {
     const {
-     belongs_to,
+      belongs_to,
       created_by
     } = commentDatum
     return {
@@ -70,6 +73,30 @@ const formatCommentsData = (commentData, userRefs, articleRef) => {
       created_by: exchangeIDs(created_by, userRefs),
     }
   })
+}
+
+const voteLogger = (arr, comms) => {
+  let thing = arr.reduce((acc, current) => {
+    // let obj = {...current, comment_count :0}
+    let obj ={}
+    obj.votes = current.votes
+    obj._id = current._id
+    obj.title = current.title
+    obj.created_by = current.created_by
+    obj.body = current.body
+    obj.created_at = current.created_at
+    obj.belongs_to = current.belongs_to
+    obj.__v = current.__v
+    obj.comment_count = 0
+    for (let i = 0; i < comms.length; i++) {
+      if (comms[i].belongs_to.toString() === obj._id.toString()) {
+        obj.comment_count += 1
+      }
+    }
+    acc.push(obj)
+    return acc
+  }, [])
+  return thing
 }
 
 
@@ -81,6 +108,7 @@ const formatCommentsData = (commentData, userRefs, articleRef) => {
 
 module.exports = {
   formatData,
+  voteLogger,
   formatCommentsData,
   formatSingleTopic,
   formatArticleData,

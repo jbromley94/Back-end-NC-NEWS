@@ -15,14 +15,6 @@ const {
   Article,
   Comment
 } = require('../models')
-const
-  topicData = require('./devData/topics.json')
-const
-  articleData = require('./devData/articles.json')
-const
-  userData = require('./devData/users.json');
-const
-  commentData = require('./devData/comments.json')
 
 const seedDB = (topicData, commentData, articleData, userData) => {
   return mongoose.connection.dropDatabase()

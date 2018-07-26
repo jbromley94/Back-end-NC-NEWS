@@ -100,9 +100,9 @@ it("A2-GET responds 404 when articles is misspelt", () => {
           .expect(404)
           .then(res => {
             expect(res.body).to.be.an("Object")
-            expect(res.body).to.contain.keys("msg", "BAD_REQUEST")
+            expect(res.body).to.contain.keys("msg", "NOT_FOUND")
             expect(res.body.msg).to.equal('These are not the droids you\'re looking for')
-            expect(res.body.BAD_REQUEST).to.equal(`Given Path or Field is invalid`)
+            expect(res.body.NOT_FOUND).to.equal(`Given Path or Field is invalid`)
           })
       })
 ```

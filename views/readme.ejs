@@ -74,10 +74,10 @@
 <br>.then(res
  => {
 <br>expect(res.body).to.be.an("Object")
-<br>expect(res.body).to.contain.keys("msg", "BAD_REQUEST")
+<br>expect(res.body).to.contain.keys("msg", "NOT_FOUND")
 <br> expect(res.body.msg).to.equal('These
  are not the droids you\'re looking for')
-<br> expect(res.body.BAD_REQUEST).to.equal(`Given Path or Field is invalid`)
+<br> expect(res.body.NOT_FOUND).to.equal(`Given Path or Field is invalid`)
 <br>})
 <br> })
   ```

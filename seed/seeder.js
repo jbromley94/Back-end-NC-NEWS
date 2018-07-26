@@ -20,5 +20,6 @@ mongoose.connect(DB_URL, {
     return seedDB(topicData, commentData, articleData, userData)
   })
   .then(() => {
+    console.log(`Topic, Comment, Article and User seed complete.`)
     return mongoose.disconnect()
   })

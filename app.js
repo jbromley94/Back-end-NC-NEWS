@@ -22,7 +22,7 @@ app.use(function (err, req, res, next) {
   if (err === 404 || err.status === 404) {
     res.status(404).send({
       msg: 'These are not the droids you\'re looking for',
-      BAD_REQUEST : `Given Path or Field is invalid`
+      NOT_FOUND: `Given Path or Field is invalid`
     });
   }
   else next(err)
@@ -32,7 +32,7 @@ app.use(function (err, req, res, next) {
   if (err.name === "TypeError") {
     res.status(404).send({
       msg: err.message,
-      BAD_REQUEST: `Given topic is invalid`
+      NOT_FOUND: `Given topic is invalid`
     });
   }
   else next(err)
