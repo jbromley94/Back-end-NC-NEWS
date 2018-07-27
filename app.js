@@ -49,6 +49,15 @@ app.use(function (err, req, res, next) {
 });
 
 app.use(function (err, req, res, next) {
+  if (err.status === 400) {
+    res.status(400).send({
+      msg: `The correct parameters for this request not met. See below for details`,
+      BAD_REQUEST: `Your input of ${err.user} is not appropriate to complete the search : The parameters REQUIRE an existing username`
+    });
+  } else next(err)
+});
+
+app.use(function (err, req, res, next) {
   if (err.name === "ValidationError") {
     errArrString = Object.keys(err.errors).join(', ')
     res.status(400).send({

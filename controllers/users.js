@@ -18,12 +18,21 @@ const allUsers = (req, res, next) => {
 };
 
 const userById = (req, res, next) => {
-  User.findById(req.params.user)
+  User.find({
+      username: req.params.user
+    })
     .then(user => {
-     user === null ?
-       next({
-         status: 404
-       }) :
+      if (user.length === 0 && req.params.user.length === 24) {
+        return next({
+          status: 404
+        })
+      }
+      if (user.length === 0) {
+        return next({
+          status: 400,
+          user: req.params.user
+        })
+      }
       res.status(200).send({
         user
       });

@@ -229,7 +229,6 @@ describe('', () => {
         return request.post(`/api/articles/${articleId}/comments`)
           .send({
             votes: 0,
-            created_by: '5b507350c6aab01c1f82121b',
             body: 'Oh wow, I love to make inane useless comments',
             belongs_to: 'mitch'
           })
@@ -250,7 +249,7 @@ describe('', () => {
             expect(res.body).to.be.an("Object")
             expect(res.body).to.contain.keys("msg", "BAD_REQUEST")
             expect(res.body.msg).to.equal(`The correct parameters for post request not met. See below for details`)
-            expect(res.body.BAD_REQUEST).to.equal(`The following are REQUIRED for a successful post: created_by, body`)
+            expect(res.body.BAD_REQUEST).to.equal(`The following are REQUIRED for a successful post: body`)
           })
       })
     })
@@ -298,12 +297,12 @@ describe('', () => {
     })
     describe("users", () => {
       it("U1 - GET responds with a user and their known info", () => {
-        return request.get(`/api/users/${userDocs[0]._id}`)
+        return request.get(`/api/users/${userDocs[0].username}`)
           .expect(200)
           .then(res => {
             expect(res.body).to.be.an("Object")
-            expect(res.body.user).to.contain.keys("username", "avatar_url", "name")
-            expect(res.body.user._id).to.equal(`${userDocs[0]._id}`)
+            expect(res.body.user[0]).to.contain.keys("username", "avatar_url", "name")
+            expect(res.body.user[0]._id).to.equal(`${userDocs[0]._id}`)
           })
       })
       it("U2 - GET responds with 400 when correct input used", () => {
@@ -313,7 +312,7 @@ describe('', () => {
             expect(res.body).to.be.an("Object")
             expect(res.body).to.contain.keys("msg", "BAD_REQUEST")
             expect(res.body.msg).to.equal(`The correct parameters for this request not met. See below for details`)
-            expect(res.body.BAD_REQUEST).to.equal(`Your input of butter is not appropriate to complete the search : The parameters REQUIRE a relevant 24digit hash`)
+            expect(res.body.BAD_REQUEST).to.equal(`Your input of butter is not appropriate to complete the search : The parameters REQUIRE an existing username`)
           })
       })
       it("U3 - GET responds 404 when incorrect id hash from another collection", () => {

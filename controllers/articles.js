@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
 const {
   Article,
-  Comment
+  Comment,
+  User
 } = require('../models/index');
 const {
   commentLogger
@@ -83,7 +84,10 @@ const commentsByArticle = (req, res, next) => {
 };
 
 const addCommentByArticle = (req, res, next) => {
+  User.find()
+  .then(users => {
   req.body.belongs_to = req.params.id
+  req.body.created_by = users[0]._id
   let newBody = new Comment(req.body)
   let belongs_to = req.params.article_id
   newBody.save()
@@ -93,6 +97,7 @@ const addCommentByArticle = (req, res, next) => {
       })
     })
     .catch(next)
+    })
 }
 
 module.exports = {
