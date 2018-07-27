@@ -4,7 +4,9 @@ const {
   Article,
   Comment
 } = require('../models/index');
-const {voteLogger} = require("../utils/index")
+const {
+  commentLogger
+} = require("../utils/index")
 
 const allTopics = (req, res, next) => {
   Topic.find()
@@ -29,19 +31,19 @@ const articleForTopic = (req, res, next) => {
     })
     .then(result => {
       return Promise.all([result, Comment.find()])
-
-      // res.status(200).send({result})
     })
     .then(([resultio, comments]) => {
-      let result = voteLogger(resultio, comments)
-      res.status(200).send({result})
+      let articles_by_topic = commentLogger(resultio, comments)
+      res.status(200).send({
+        articles_by_topic
+      })
     })
     .catch(next);
 }
 
 const articleToTopic = (req, res, next) => {
+  req.body.belongs_to = req.params.topic_slug
   let newBody = new Article(req.body)
-  let topicId = req.params.topic_id
   newBody.save()
     .then(posted_article => {
       res.status(201).send({

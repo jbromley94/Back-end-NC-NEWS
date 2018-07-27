@@ -53,7 +53,7 @@ app.use(function (err, req, res, next) {
     errArrString = Object.keys(err.errors).join(', ')
     res.status(400).send({
       msg: `The correct parameters for post request not met. See below for details`,
-      BAD_REQUEST : `The following are REQUIRED for a succsessful post: ${errArrString}`
+      BAD_REQUEST : `The following are REQUIRED for a successful post: ${errArrString}`
     });
   } else {
   res.status(500).send({

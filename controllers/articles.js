@@ -4,7 +4,7 @@ const {
   Comment
 } = require('../models/index');
 const {
-  voteLogger
+  commentLogger
 } = require("../utils/index")
 
 const allArticles = (req, res, next) => {
@@ -13,9 +13,9 @@ const allArticles = (req, res, next) => {
       return Promise.all([result, Comment.find()])
     })
     .then(([resultio, comments]) => {
-      let result = voteLogger(resultio, comments)
+      let all_articles = commentLogger(resultio, comments)
       res.status(200).send({
-        result
+        all_articles
       });
     })
     .catch(next);
@@ -24,14 +24,13 @@ const allArticles = (req, res, next) => {
 const individiualArticle = (req, res, next) => {
   if (Object.keys(req.query).length === 0) {
     Article.findById(req.params.id)
-      .then(result => {
-        result === null ?
+      .then(article => {
+        article === null ?
           next({
-            status: 404,
-            msg: 'hihihi'
+            status: 404
           }) :
           res.status(200).send({
-            result
+            article
           });
       })
       .catch(next);
@@ -71,14 +70,13 @@ const commentsByArticle = (req, res, next) => {
   Comment.find({
       belongs_to: `${req.params.id}`
     })
-    .then(result => {
-      result === null || result.length === 0 ?
+    .then(comments_by_article => {
+      comments_by_article === null || comments_by_article.length === 0 ?
         next({
-          status: 404,
-          msg: 'hihihi'
+          status: 404
         }) :
         res.status(200).send({
-          result
+          comments_by_article
         });
     })
     .catch(next);
@@ -89,9 +87,9 @@ const addCommentByArticle = (req, res, next) => {
   let newBody = new Comment(req.body)
   let belongs_to = req.params.article_id
   newBody.save()
-    .then(result => {
+    .then(added => {
       res.status(201).send({
-        result
+        added
       })
     })
     .catch(next)

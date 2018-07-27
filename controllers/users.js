@@ -7,9 +7,9 @@ const {
 
 const allUsers = (req, res, next) => {
   User.find()
-    .then(result => {
+    .then(all_users => {
       res.status(200).send({
-        result
+        all_users
       });
     })
     .catch(err => {
@@ -19,14 +19,13 @@ const allUsers = (req, res, next) => {
 
 const userById = (req, res, next) => {
   User.findById(req.params.user)
-    .then(result => {
-     result === null ?
+    .then(user => {
+     user === null ?
        next({
-         status: 404,
-         msg: 'hihihi'
+         status: 404
        }) :
       res.status(200).send({
-        result
+        user
       });
     })
     .catch(err => {

@@ -75,9 +75,8 @@ const formatCommentsData = (commentData, userRefs, articleRef) => {
   })
 }
 
-const voteLogger = (arr, comms) => {
+const commentLogger = (arr, comms) => {
   let thing = arr.reduce((acc, current) => {
-    // let obj = {...current, comment_count :0}
     let obj ={}
     obj.votes = current.votes
     obj._id = current._id
@@ -99,16 +98,9 @@ const voteLogger = (arr, comms) => {
   return thing
 }
 
-
-
-
-
-
-
-
 module.exports = {
   formatData,
-  voteLogger,
+  commentLogger,
   formatCommentsData,
   formatSingleTopic,
   formatArticleData,
