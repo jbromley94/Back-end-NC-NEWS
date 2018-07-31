@@ -254,16 +254,27 @@ describe('', () => {
       })
     })
     describe("comments", () => {
-      it("C1-PUT responds 201 when incrementing vote up or down", () => {
+      it("C1-PUT responds 201 when incrementing voting up", () => {
         return request.put(`/api/comments/${commentDocs[0]._id}?vote=up`)
           .expect(202)
           .then(res => {
             expect(res.body).to.be.an("Object")
             expect(res.body).to.contain.keys("body", "created_by", "created_at", "belongs_to", "votes")
-            expect(res.body.votes).to.equal(1)
+            expect(res.body.votes).to.equal(8)
             expect(res.body.body).to.equal("Replacing the quiet elegance of the dark suit and tie with the casual indifference of these muted earth tones is a form of fashion suicide, but, uh, call me crazy — on you it works.")
           })
       })
+      it("C1-2-PUT responds 201 when incrementing voting down", () => {
+        return request
+          .put(`/api/comments/${commentDocs[0]._id}?vote=down`)
+          .expect(202)
+          .then(res => {
+            expect(res.body).to.be.an("Object");
+            expect(res.body).to.contain.keys("body", "created_by", "created_at", "belongs_to", "votes");
+            expect(res.body.votes).to.equal(6);
+            expect(res.body.body).to.equal("Replacing the quiet elegance of the dark suit and tie with the casual indifference of these muted earth tones is a form of fashion suicide, but, uh, call me crazy — on you it works.");
+          });
+      });
       it("C1.5 Err-PUT responds 400 when incorrect input used", () => {
         return request.put(`/api/comments/mitch?vote=up`)
           .expect(400)

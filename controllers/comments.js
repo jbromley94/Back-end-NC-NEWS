@@ -5,32 +5,40 @@ const {
 
 const individualComment = (req, res, next) => {
   if (req.query.vote === 'up') {
-    Comment.findByIdAndUpdate(req.params.id, {
-      votes: `${+1}`
-    }, {
-      upsert: true,
-      new: true
-    }, function (err, doc) {
-      if (err) return next(err)
-      if (!doc.belongs_to) return next({
-        status: 404
-      })
-      res.status(202).send(doc)
-    })
+    Comment.findByIdAndUpdate(
+      req.params.id,
+      { $inc: { votes: 1 } },
+      {
+        upsert: true,
+        new: true
+      },
+      function(err, doc) {
+        if (err) return next(err);
+        if (!doc.belongs_to)
+          return next({
+            status: 404
+          });
+        res.status(202).send(doc);
+      }
+    );
   }
   if (req.query.vote === 'down') {
-    Comment.findByIdAndUpdate(req.params.id, {
-      votes: `${-1}`
-    }, {
-      upsert: true,
-      new: true
-    }, function (err, doc) {
-      if (err) return next(err)
-      if (!doc.belongs_to) return next({
-        status: 404
-      })
-      res.status(202).send(doc)
-    })
+    Comment.findByIdAndUpdate(
+      req.params.id,
+      { $inc: { votes: -1 } },
+      {
+        upsert: true,
+        new: true
+      },
+      function(err, doc) {
+        if (err) return next(err);
+        if (!doc.belongs_to)
+          return next({
+            status: 404
+          });
+        res.status(202).send(doc);
+      }
+    );
   }
 };
 
