@@ -16,7 +16,7 @@ const {
   Comment
 } = require('../models')
 
-const seedDB = (topicData, commentData, articleData, userData) => {
+const seedDB = ({topicData, commentData, articleData, userData}) => {
   return mongoose.connection.dropDatabase()
     .then(() => {
       let formattedTopicData = formatData(topicData, formatSingleTopic);

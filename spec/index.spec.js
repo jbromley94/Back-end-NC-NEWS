@@ -6,16 +6,7 @@ const {
 } = require("chai");
 const mongoose = require("mongoose");
 const seedDB = require("../seed/seed.js");
-const
-  topicData = require('../seed/testData/topics.json')
-const
-  articleData = require('../seed/testData/articles.json')
-const
-  userData = require('../seed/testData/users.json');
-const
-  commentData = require('../seed/testData/comments.json')
 const testData = require('../seed/testData');
-
 
 describe('', () => {
   let topicDocs;
@@ -23,7 +14,7 @@ describe('', () => {
   let articleDocs;
   let userDocs
   beforeEach(() => {
-    return seedDB(topicData, commentData, articleData, userData)
+    return seedDB(testData)
       .then(docs => {
         [topicDocs, commentDocs, articleDocs, userDocs] = docs;
       })
