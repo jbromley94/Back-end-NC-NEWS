@@ -2,85 +2,126 @@
   jb-northcoder-news
 </h1>
 <h2>
-   Getting Started
+  Getting Started
 </h2>
 <p>
   Hello, You have made it to the README for my app - jb-northcoder-news. This API traverses the API through inputted routes.
-  The API is fairly responsive in that for incorrect input you shall be met with an error message which not only informs
-  you of an error having occurred but also why, and how to rectify the issue.
+  The API is responsive in that for incorrect input you shall be met with an error message which not only informs you of
+  an error having occurred but also why, and how to rectify the issue.
 </p>
 <h2>
-   Installing
+  Installing
 </h2>
 <p>
-  To acquire the files you shall have to use this snippet in the command line, make sure that you hade cd into the directory
+  To acquire the files you shall have to use this snippet in the command line, make sure that you have cd'd into the directory
   you wish to clone into :
 </p>
 <h4> ``` git clone https://github.com/jbromley94/BE-FT-northcoders-news.git ```
 </h4>
 <p> Below lays out the npm installs one shall have to use to get the app up and running.
 </p>
-<h2>  Prerequisites
+<h2> Prerequisites
 </h2>
-<p>To use this program you will have to run the following, this is provided you have set up your npm and git environments. For
-  all npm packages needed just run :
+<p>To use this program you will have to run the following, this is provided you have set up your npm and git environments, as
+  well as cd'ing into the clone directory. For all npm packages needed just run :
 </p>
 <h4>``` npm install ``` </h4>
 <p>The versions are as follows :</p>
-<h4> ``` node : 9.9.0 <br> body-parser: 1.18.3<br> ejs: 2.6.1<br> express: 4.16.3<br> mongoose: 5.2.4 chai: 4.1.2<br> mocha: 5.2.0<br> nodemon:
-  1.18.3<br> supertest: 3.1.0```</h4>
-<p>The final task to carry out will be to navigate to the folder db, and create a config.js file. You can do this using either
-  vscode to make a new file or by cd-ing into the db folder and typing : </p>
+<h4> ``` node : 9.9.0
+  <br> body-parser: 1.18.3
+  <br> ejs: 2.6.1
+  <br> express: 4.16.3
+  <br> mongoose: 5.2.4 chai: 4.1.2
+  <br> mocha: 5.2.0
+  <br> nodemon: 1.18.3
+  <br> supertest: 3.1.0```</h4>
+<p>The final task to carry out will be to create a folder named db by typing this snippet in the terminal:</p>
+<h4>```mkdir db```</h4>
+<p>Cd into that folder and create a config.js file. You can do this using either vscode to make a new file or by cd-ing into
+  the db folder and typing : </p>
 <h4> ``` touch config.js ``` </h4>
-<p>Once that has been performed it is time to set up your config file. You can use this template of code provided:</p>
+<p>Once that has been performed, make sure to type</p>
+<h4>```cd .. ```</h4>
+<p>Into the terminal again to return to the cloned repo. Now it is time to set up your config file. You can use this template
+  of code provided:</p>
 <h4>``` const NODE_ENV = process.env.NODE_ENV || 'dev';
   <br>
-<br>const config = {
-<br>dev: {
-<br>DB_URL: `mongodb://localhost:27017/
-<your database here>`
-<br> },
-<br> test: {
-<br> DB_URL: `mongodb://localhost:27017>/
-<your database here>`
-<br>},
-<br>production : {
-<br> DB_URL: `mongodb://
-      <name of database hosted through mlabs>:
-        <password for that database>@ds231941.mlab.com:31941/
-<your database name again>`
-<br> }
-<br> }
-<br>
-<br> module.exports = config[NODE_ENV] ``` </h4>
+  <br>const config = {
+  <br>dev: {
+  <br>DB_URL: `mongodb://localhost:27017/
+  <your database here>`
+    <br> },
+    <br> test: {
+    <br> DB_URL: `mongodb://localhost:27017>/
+    <your database here>`
+      <br> }
+      <br> }
+      <br>
+      <br> module.exports = config[NODE_ENV] ``` </h4>
 <p>A brief overview of this is that the dev and test run locally whilst the production level code points to the mlabs database.
-  You should now be completely up and running hopefully.  </p>
+  You should now be completely up and running hopefully. </p>
+<p>The database collections include: </p>
+<h4>
+  <br>- Topics
+  <br>- Users
+  <br>- Articles
+  <br>- Comments</h4>
+<p>There are two databases too, the devData and testData. The testData folder contains much smaller JSON objects, and thus is
+  easier to work with for tests. The devData on the other hand contains a lot of information. To seed the devData run :</p>
+<h4>
+  ```
+  <br> npm run seed:dev
+  <br>```
+  <br>
+</h4>
+<p>Once that's been done you can check that usinng the instructions below, starting from :</p>
+<h4>```
+  <br>$ mongo
+  <br>```
+  <br>
+</h4>
 <h2>Running the tests</h2>
-<p>Before any tests are attempted, or any seeding at all, it is paramount to note that in your favourite terminal application
-  to type and enter :</p>
-  <h4>mongod</h4>
-<p> To run the test you can run the scripts given
-  in the provided package.json file. Likewise feel free to produce your own. The easiest way is to use :</p>
-<h4>``` npm test
-    ``` </h4>
+<p>Before any tests are attempted, or any seeding at all, it is paramount to note that in your favourite terminal application,
+  type and enter :</p>
+<h4>mongod</h4>
+<p> To run the test you can run the scripts given in the provided package.json file. Likewise feel free to produce your own.
+  The easiest way is to use :</p>
+<h4>``` npm test ``` </h4>
+<p>You can use a seperate terminal application(not VSCode's) to see whether the seed has been successfully carried out, use
+  the code below to do so: </p>
+<h4>``` $ mongo
+  <br> ---
+  <br>Mongo startup messages here.
+  <br> ---
+  <br> show dbs
+  <br> admin 0.000GB
+  <br> config 0.000GB
+  <br> local 0.000GB
+  <br>northcoderNews 0.000GB
+  <br>> use northcoderNews
+  <br>switched to db northcoderNews
+  <br>> show collections
+  <br>articles
+  <br>comments
+  <br>topics
+  <br>users
+  <br>>
+  <br>```</h4>
 <h2> Break down into end to end tests </h2>
 <p>
   The tests are relatively self explanatory. There is a test for each request and its routes. This reaches into the territory
-  of also testing for errors. So feel assured the product is fairly robust. One of the smaller examples is listed below:</p>
+  of also testing for errors. So feel assured the product is robust. One of the smaller examples is listed below:</p>
 <h4>
- ``` it("A2-GET responds 404 when articles is misspelt", () => {
-<br> return request.get("/api/article")
-<br> .expect(404)
-<br>.then(res
- => {
-<br>expect(res.body).to.be.an("Object")
-<br>expect(res.body).to.contain.keys("msg", "NOT_FOUND")
-<br> expect(res.body.msg).to.equal('These
- are not the droids you\'re looking for')
-<br> expect(res.body.NOT_FOUND).to.equal(`Given Path or Field is invalid`)
-<br>})
-<br> })
-  ```
+  ``` it("A2-GET responds 404 when articles is misspelt", () => {
+  <br> return request.get("/api/article")
+  <br> .expect(404)
+  <br>.then(res => {
+  <br>expect(res.body).to.be.an("Object")
+  <br>expect(res.body).to.contain.keys("msg", "NOT_FOUND")
+  <br> expect(res.body.msg).to.equal('These are not the droids you\'re looking for')
+  <br> expect(res.body.NOT_FOUND).to.equal(`Given Path or Field is invalid`)
+  <br>})
+  <br> }) ```
 </h4>
 <p> The lettering is a direct reference to pathway, in this case /articles. The number correlates to the position of which test
   it is. </p>
@@ -89,11 +130,11 @@
 <p>
   It was also important I tested the actual response on the value of the objects keys.
 </p>
-<h2>  Built With</h2>
+<h2> Built With</h2>
 <p>* [mongoose](http://mongoosejs.com/docs/)</p>
 <p> * [express](https://expressjs.com/)</p>
 <p>* [ejs](http://www.embeddedjs.com/)</p>
-<h2>  Authors </h2>
+<h2> Authors </h2>
 <p>* **Jordan Bromley** - [My Github](https://github.com/jbromley94)</p>
-<h2>  Acknowledgments </h2>
+<h2> Acknowledgments </h2>
 <p>* Thanks to northcoders</p>

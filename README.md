@@ -4,11 +4,11 @@
 
 Hello,
 You have made it to the README for my app - [jb-northcoder-news](https://jb-northcoder-news.herokuapp.com/).
-This API traverses the API through inputted routes. The API is fairly responsive in that for incorrect input you shall be met with an error message which not only informs you of an error having occurred but also why, and how to rectify the issue.
+This API traverses the API through inputted routes. The API is responsive in that for incorrect input you shall be met with an error message which not only informs you of an error having occurred but also why, and how to rectify the issue.
 
 ### Installing
 
-To acquire the files you shall have to use this snippet in the command line, make sure that you hade cd into the directory you wish to clone into :
+To acquire the files you shall have to use this snippet in the command line, make sure that you have cd'd into the directory you wish to clone into :
 
 ```
 git clone https://github.com/jbromley94/BE-FT-northcoders-news.git
@@ -18,9 +18,9 @@ Below lays out the npm installs one shall have to use to get the app up and runn
 
 ### Prerequisites
 
-To use this program you will have to run the following, this is provided you have set up your npm and git environments.
+To use this program you will have to run the following, this is provided you have set up your npm and git environments, as well as cd'ing into the clone directory
 
-For all npm packages needed just run : 
+For all npm packages needed just run :
 
 ```
 npm install
@@ -40,13 +40,25 @@ The versions are as follows :
     supertest: 3.1.0
 ```
 
-The final task to carry out will be to navigate to the folder db, and create a config.js file. You can do this using either vscode to make a new file or by cd-ing into the db folder and typing
+The final task to carry out will be to create a folder named db by typing this snippet in the terminal:
+
+```
+mkdir db
+```
+
+Cd into that folder and create a config.js file. You can do this using either vscode to make a new file or by cd-ing into the db folder and typing
 
 ```
 touch config.js
 ```
 
-Once that has been performed it is time to set up your config file. You can use this template of code provided:
+Once that has been performed, make sure to type:
+
+```
+cd ..
+```
+
+Into the terminal again to return to the cloned repo. Now it is time to set up your config file. You can use this template of code provided:
 
 ```
 const NODE_ENV = process.env.NODE_ENV || 'dev';
@@ -58,22 +70,38 @@ const config = {
   },
   test: {
     DB_URL: `mongodb://localhost:27017>/<your database here>`
-  },
-  production : {
-    DB_URL: `mongodb://<name of database hosted through mlabs>:<password for that database>@ds231941.mlab.com:31941/<your database name again>`
   }
 }
 
 module.exports = config[NODE_ENV]
 ```
 
-A brief overview of this is that the dev and test run locally whilst the production level code points to the mlabs database.
+A brief overview of this is that the dev and test run locally, the production level code points to an mlabs database.
 
 You should now be completely up and running hopefully.
 
+The database collections include:
+
+- Topics
+- Users
+- Articles
+- Comments
+
+There are two databases too, the devData and testData. The testData folder contains much smaller JSON objects, and thus is easier to work with for tests. The devData on the other hand contains a lot of information. To seed the devData run :
+
+```
+npm run seed:dev
+```
+
+Once that's been done you can check that usinng the instructions below, starting from :
+
+```
+$ mongo
+```
+
 ## Running the tests
 
-Before any tests are attempted, or any seeding at all, it is paramount to note that in your favourite terminal application to type and enter : 
+Before any tests are attempted, or any seeding at all, it is paramount to note that in your favourite terminal application, type and enter :
 
 ```
 mongod
@@ -87,10 +115,34 @@ The easiest way is to use :
 npm test
 ```
 
+You can use a seperate terminal application(not VSCode's) to see whether the seed has been successfully carried out, use the code below to do so:
+
+```
+$ mongo
+
+---
+Mongo startup messages here.
+---
+
+> show dbs
+admin            0.000GB
+config           0.000GB
+local            0.000GB
+northcoderNews          0.000GB
+> use northcoderNews
+switched to db northcoderNews
+> show collections
+articles
+comments
+topics
+users
+>
+```
+
 ### Break down into end to end tests
 
 The tests are relatively self explanatory.
-There is a test for each request and its routes. This reaches into the territory of also testing for errors. So feel assured the product is fairly robust.
+There is a test for each request and its routes. This reaches into the territory of also testing for errors. So feel assured the product is robust.
 
 One of the smaller examples is listed below:
 
