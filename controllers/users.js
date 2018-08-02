@@ -1,11 +1,8 @@
-const mongoose = require('mongoose');
 const {
-  User,
-  Article,
-  Comment
+  User
 } = require('../models/index');
 
-const allUsers = (req, res, next) => {
+const allUsers = ( res, next) => {
   User.find()
     .then(all_users => {
       res.status(200).send({

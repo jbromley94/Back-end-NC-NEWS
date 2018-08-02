@@ -10,7 +10,7 @@ mongoose.connect(DB_URL, {
     console.log(`connected to ${DB_URL}`)
   })
   .then(() => {
-    return seedDB(VRFrameData);
+    return seedDB(data);
   })
   .then(() => {
     console.log(`Topic, Comment, Article and User seed complete.`)

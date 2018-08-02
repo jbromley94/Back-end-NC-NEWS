@@ -77,15 +77,16 @@ const formatCommentsData = (commentData, userRefs, articleRef) => {
 
 const commentLogger = (arr, comms) => {
   let thing = arr.reduce((acc, current) => {
-    let obj ={}
-    obj.votes = current.votes
-    obj._id = current._id
-    obj.title = current.title
-    obj.created_by = current.created_by
-    obj.body = current.body
-    obj.created_at = current.created_at
-    obj.belongs_to = current.belongs_to
-    obj.__v = current.__v
+    let obj ={
+    votes : current.votes,
+    _id : current._id,
+    title : current.title,
+    created_by : current.created_by,
+    body : current.body,
+    created_at : current.created_at,
+    belongs_to : current.belongs_to,
+    __v : current.__v
+    }
     obj.comment_count = 0
     for (let i = 0; i < comms.length; i++) {
       if (comms[i].belongs_to.toString() === obj._id.toString()) {
@@ -98,8 +99,48 @@ const commentLogger = (arr, comms) => {
   return thing
 }
 
+const upOrDownVote = (query, id, res, next, Context) => {
+  if (query === "up") {
+    Context.findByIdAndUpdate(
+      id,
+      { $inc: { votes: 1 } },
+      {
+        upsert: true,
+        new: true
+      },
+      function (err, doc) {
+        if (err) return next(err);
+        if (!doc.belongs_to || doc === undefined)
+          return next({
+            status: 404
+          });
+        res.status(202).send(doc);
+      }
+    );
+  } 
+  if (query === "down") {
+    Context.findByIdAndUpdate(
+      id,
+      { $inc: { votes: -1 } },
+      {
+        upsert: true,
+        new: true
+      },
+      function (err, doc) {
+        if (err) return next(err);
+        if (!doc.belongs_to)
+          return next({
+            status: 404
+          });
+        res.status(202).send(doc);
+      }
+    );
+  }
+}
+
 module.exports = {
   formatData,
+  upOrDownVote,
   commentLogger,
   formatCommentsData,
   formatSingleTopic,

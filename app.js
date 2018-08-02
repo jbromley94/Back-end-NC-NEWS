@@ -18,6 +18,11 @@ app.get('/README.md', (req, res) => {
 })
 app.use('/api', apiRouter);
 
+apiRouter.get("/*", (req, res, next) => {
+  let err = 404;
+  return next(err, req, res, next);
+});
+
 app.use(function (err, req, res, next) {
   if (err === 404 || err.status === 404) {
     res.status(404).send({

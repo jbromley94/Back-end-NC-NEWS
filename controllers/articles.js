@@ -1,6 +1,5 @@
-const mongoose = require("mongoose");
 const { Article, Comment, User } = require("../models/index");
-const { commentLogger } = require("../utils/index");
+const { commentLogger, upOrDownVote } = require("../utils/index");
 
 const allArticles = (req, res, next) => {
   Article.find()
@@ -17,6 +16,8 @@ const allArticles = (req, res, next) => {
 };
 
 const individiualArticle = (req, res, next) => {
+  let query = req.query.vote;
+  let id = req.params.id;
   if (Object.keys(req.query).length === 0) {
     Article.findById(req.params.id)
       .then(article => {
@@ -30,42 +31,7 @@ const individiualArticle = (req, res, next) => {
       })
       .catch(next);
   } else {
-    if (req.query.vote === "up") {
-      Article.findByIdAndUpdate(
-        req.params.id,
-        { $inc: { votes: 1 } },
-        {
-          upsert: true,
-          new: true
-        },
-        function(err, doc) {
-          if (err) return next(err);
-          if (!doc.belongs_to || doc === undefined)
-            return next({
-              status: 404
-            });
-          res.status(202).send(doc);
-        }
-      );
-    }
-    if (req.query.vote === "down") {
-      Article.findByIdAndUpdate(
-        req.params.id,
-        { $inc: { votes: -1 } },
-        {
-          upsert: true,
-          new: true
-        },
-        function(err, doc) {
-          if (err) return next(err);
-          if (!doc.belongs_to)
-            return next({
-              status: 404
-            });
-          res.status(202).send(doc);
-        }
-      );
-    }
+    upOrDownVote(query, id, res, next, Article);
   }
 };
 
@@ -90,7 +56,6 @@ const addCommentByArticle = (req, res, next) => {
     req.body.belongs_to = req.params.id;
     req.body.created_by = users[0]._id;
     let newBody = new Comment(req.body);
-    let belongs_to = req.params.article_id;
     newBody
       .save()
       .then(added => {
