@@ -1,4 +1,4 @@
-const {DB_URL} = require(`../db/config`)
+const {DB_URL} = require(`../db/config`) 
 const data = require("./devData")
 const seedDB = require('./seed');
 const mongoose = require('mongoose');

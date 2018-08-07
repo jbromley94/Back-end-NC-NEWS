@@ -2,16 +2,14 @@ const {
   User
 } = require('../models/index');
 
-const allUsers = ( res, next) => {
+const allUsers = (req, res, next) => {
   User.find()
     .then(all_users => {
       res.status(200).send({
         all_users
       });
     })
-    .catch(err => {
-      next(err);
-    });
+    .catch(next);
 };
 
 const userById = (req, res, next) => {
