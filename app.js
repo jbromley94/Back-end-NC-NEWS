@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
+const cors = require("cors");
 const apiRouter = require('./routes/apiRouter');
 const mongoose = require('mongoose');
 const DB_URL = process.env.DB_URL || require("./db/config").DB_URL;
@@ -10,7 +11,7 @@ mongoose.connect(DB_URL, {
 });
 
 app.use(bodyParser.json(), express.static(__dirname + '/public'));
-
+app.use(cors())
 app.set('view engine', 'ejs');
 app.get('/', (req, res) => res.render('home'));
 app.get('/README.md', (req, res) => {
