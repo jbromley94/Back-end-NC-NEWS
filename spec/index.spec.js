@@ -95,11 +95,10 @@ describe('', () => {
       })
     })
     describe("articles", () => {
-      it.only("A1-GET responds 200 and all articles", () => {
+      it("A1-GET responds 200 and all articles", () => {
         return request.get("/api/articles")
           .expect(200)
           .then(res => {
-            console.log(res.body.all_articles)
             expect(res.body.all_articles).to.be.an("Array")
             expect(res.body.all_articles[0]).to.contain.keys("title", "body", "created_by", "created_at", "belongs_to", "votes", "comment_count")
             expect(res.body.all_articles.length).to.equal(4)
@@ -220,7 +219,6 @@ describe('', () => {
         const articleId = articleDocs[0]._id
         return request.post(`/api/articles/${articleId}/comments`)
           .send({
-            votes: 0,
             body: 'Oh wow, I love to make inane useless comments',
             belongs_to: 'mitch'
           })

@@ -89,7 +89,6 @@ const commentLogger = (arr, comms) => {
     }
     obj.comment_count = 0
     for (let i = 0; i < comms.length; i++) {
-      console.log(">>>>>>>", comms[i].belongs_to)
       if (comms[i].belongs_to.toString() === obj._id.toString()) {
         obj.comment_count += 1
       }
