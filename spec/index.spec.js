@@ -327,7 +327,7 @@ describe('', () => {
             expect(res.body.NOT_FOUND).to.equal(`Given Path or Field is invalid`)
           })
       })
-      it.only("U4 - EXTRA art by user GET responds with a user and their known info", () => {
+      it("U4 - EXTRA art by user GET responds with a user and their known info", () => {
         return request
           .get(`/api/users/${userDocs[0].username}/articles`)
           .expect(200)

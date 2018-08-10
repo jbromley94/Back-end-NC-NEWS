@@ -54,7 +54,9 @@ const commentsByArticle = (req, res, next) => {
 const addCommentByArticle = (req, res, next) => {
   User.find().then(users => {
     req.body.belongs_to = req.params.id;
+    if(!req.body.created_by){
     req.body.created_by = users[0]._id;
+    }
     let newBody = new Comment(req.body);
     newBody
       .save()
