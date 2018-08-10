@@ -122,6 +122,7 @@ describe('', () => {
         return request.get(`/api/articles/${articleDocs[0]._id}`)
           .expect(200)
           .then(res => {
+            console.log(res.body)
             expect(res.body).to.be.an("Object")
             expect(res.body.article).to.contain.keys("title", "body", "created_by", "created_at", "belongs_to", "votes")
             expect(res.body.article.body).to.equal("I find this existence challenging")
@@ -326,6 +327,17 @@ describe('', () => {
             expect(res.body.NOT_FOUND).to.equal(`Given Path or Field is invalid`)
           })
       })
+      it.only("U4 - EXTRA art by user GET responds with a user and their known info", () => {
+        return request
+          .get(`/api/users/${userDocs[0].username}/articles`)
+          .expect(200)
+          .then(res => {
+            expect(res.body).to.be.an("Object");
+            expect(res.body.all_articles).to.be.an("Array")
+
+            expect(res.body.all_articles[0]).to.contain.keys("title", "body", "created_by", "created_at", "belongs_to", "votes");
+          });
+      });
     })
   })
 })

@@ -1,5 +1,6 @@
 const {
-  User
+  User,
+  Article
 } = require('../models/index');
 
 const allUsers = (req, res, next) => {
@@ -11,6 +12,18 @@ const allUsers = (req, res, next) => {
     })
     .catch(next);
 };
+
+const articlesForUser = (req, res, next) => {
+  User.find({
+    username: req.params.user
+  }).then(user => {
+    return Article.find({
+      created_by: user[0]._id
+    })
+  }).then(all_articles => {
+    res.status(200).send({all_articles})
+  })
+}
 
 const userById = (req, res, next) => {
   User.find({
@@ -39,5 +52,6 @@ const userById = (req, res, next) => {
 
 module.exports = {
   allUsers,
-  userById
-}
+  userById,
+  articlesForUser
+};
