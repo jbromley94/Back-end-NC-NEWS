@@ -93,7 +93,7 @@ There are two databases too, the devData and testData. The testData folder conta
 npm run seed:dev
 ```
 
-Once that's been done you can check that usinng the instructions below, starting from :
+Once that's been done you can check that using the instructions below, starting from :
 
 ```
 $ mongo
